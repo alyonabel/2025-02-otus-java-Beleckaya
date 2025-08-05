@@ -1,0 +1,27 @@
+-Xmx? -verbose:gc -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./logs/heapdump.hprof -XX:+UseG1GC -Xlog:gc=debug:file=./logs/gc-%p-%t.log:tags,uptime,time,level:filecount=5,filesize=10m
+---------------------------------------------------------------------------
+-Xms256m
+spend msec:495242, sec:495
+
+-Xms500m
+spend msec:488329, sec:488
+
+-Xms1500m
+spend msec:489250, sec:489
+
+-Xms2g
+spend msec:490830, sec:490
+--------------------------------------------------------------------------
+После оптимизации
+-Xms500m
+spend msec:446457, sec:446
+
+-Xms2g
+spend msec:444021, sec:444
+
+-Xms3g
+spend msec:444227, sec:444
+
+------------------------
+Вывод:
+после оптимизации приложения, снизилась зависимость от выставления параметра - минимальный размер хипа
