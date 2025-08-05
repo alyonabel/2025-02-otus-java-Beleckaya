@@ -20,6 +20,15 @@
         <module>hw02-collections</module>
         <module>hw03-annotations</module>
         <module>hw04-gc</module>
+        <module>hw05-bytecode</module>
+        <module>hw06-atm</module>
+        <module>hw07-handler</module>
+        <module>hw08-json</module>
+        <module>hw09-jdbc</module>
+        <module>hw10-jpql</module>
+
+
+
     </modules>
 
     <properties>
