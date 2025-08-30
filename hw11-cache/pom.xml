@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>otus_java</artifactId>
+        <groupId>ru.otus</groupId>
+        <version>2025-02-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hw11-cache</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>2.3.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>7.11.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.23</version>
+        </dependency>
+        <dependency>
+             <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.5.7.Final</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>3.5.6-Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <version>1.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.5.7.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.12.4</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>ru.otus</groupId>
+            <artifactId>hw10-jpql</artifactId>
+            <version>2025-02-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
+    </properties>
+    <build>
+    <pluginManagement>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.8</version>
+            <executions>
+                <execution>
+                    <id>build Docker image</id>
+                    <phase>package</phase>
+                    <configuration>
+                       <target>
+                           <copy todir="${basedir}/target" overwrite="true">
+                               <fileset dir="${basedir}/docker"/>
+                           </copy>
+                           <chmod file="${basedir}/target/runDb.src" perm="a+x"/>
+                           <exec dir="${basedir}/target" executable="${basedir}/target/runDb.src"/>
+                       </target>
+                    </configuration>
+                    <goals><goal>
+                        run
+                    </goal></goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+    </pluginManagement>
+    </build>
+
+</project>
