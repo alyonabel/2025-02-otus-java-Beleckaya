@@ -27,30 +27,38 @@ public class DbServiceClientCachingProxy implements DBServiceClient{
         }
     }
 
+    public Client getKey(long id){
+        var key = String.valueOf(id);
+        return cache.get(key);
+    }
+
+    public void putKey(long id, Client client){
+        var key = String.valueOf(id);
+        cache.put(key, client);
+    }
+
     @Override
     public Client saveClient(Client client) {
         var savedClient = dbServiceClient.saveClient(client);
-        cache.put(String.valueOf(savedClient.getId()), savedClient);
+        putKey(savedClient.getId(),savedClient);
         return savedClient;
     }
 
     @Override
     public Optional<Client> getClient(long id) {
-        var key = String.valueOf(id);
-        var clientInCache = cache.get(key);
+        var clientInCache = getKey(id);
         if (clientInCache == null) {
             var client = dbServiceClient.getClient(id);
-            client.ifPresent(value -> cache.put(key, value));
+            client.ifPresent(value -> putKey(id,value));
             return client;
         }
-
         return Optional.of(clientInCache);
     }
 
     @Override
     public List<Client> findAll() {
         var clients = dbServiceClient.findAll();
-        clients.forEach(it -> cache.put(String.valueOf(it.getId()), it));
+        clients.forEach(it -> putKey(it.getId(),it));
         return clients;
     }
 }
