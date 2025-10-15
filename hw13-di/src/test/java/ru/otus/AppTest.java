@@ -21,24 +21,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 class AppTest {
-
-    @Disabled("Эту аннотацию надо убрать")
     @DisplayName("Из контекста тремя способами должен корректно доставаться компонент с проставленными полями")
     @ParameterizedTest(name = "Достаем по: {0}")
     @CsvSource(
             value = {
-                "GameProcessor, ru.otus.services.GameProcessor",
-                "GameProcessorImpl, ru.otus.services.GameProcessor",
-                "gameProcessor, ru.otus.services.GameProcessor",
-                "IOService, ru.otus.services.IOService",
-                "IOServiceStreams, ru.otus.services.IOService",
-                "ioService, ru.otus.services.IOService",
-                "PlayerService, ru.otus.services.PlayerService",
-                "PlayerServiceImpl, ru.otus.services.PlayerService",
-                "playerService, ru.otus.services.PlayerService",
-                "EquationPreparer, ru.otus.services.EquationPreparer",
-                "EquationPreparerImpl, ru.otus.services.EquationPreparer",
-                "equationPreparer, ru.otus.services.EquationPreparer"
+                    "GameProcessor, ru.otus.services.GameProcessor",
+                    "GameProcessorImpl, ru.otus.services.GameProcessor",
+                    "gameProcessor, ru.otus.services.GameProcessor",
+                    "IOService, ru.otus.services.IOService",
+                    "IOServiceStreams, ru.otus.services.IOService",
+                    "ioService, ru.otus.services.IOService",
+                    "PlayerService, ru.otus.services.PlayerService",
+                    "PlayerServiceImpl, ru.otus.services.PlayerService",
+                    "playerService, ru.otus.services.PlayerService",
+                    "EquationPreparer, ru.otus.services.EquationPreparer",
+                    "EquationPreparerImpl, ru.otus.services.EquationPreparer",
+                    "equationPreparer, ru.otus.services.EquationPreparer"
             })
     void shouldExtractFromContextCorrectComponentWithNotNullFields(String classNameOrBeanId, Class<?> rootClass)
             throws Exception {
@@ -75,11 +73,10 @@ class AppTest {
         }
     }
 
-    @Disabled("Эту аннотацию надо убрать")
     @DisplayName("В контексте не должно быть компонентов с одинаковым именем")
     @Test
     void shouldNotAllowTwoComponentsWithSameName() {
-        assertThatCode(() -> new AppComponentsContainerImpl(ConfigWithTwoComponentsWithSameName.class))
+        assertThatCode(() -> new AppComponentsContainerImpl(AppTest.ConfigWithTwoComponentsWithSameName.class))
                 .isInstanceOf(Exception.class);
     }
 
@@ -88,7 +85,7 @@ class AppTest {
             "При попытке достать из контекста отсутствующий или дублирующийся компонент, должно выкидываться исключение")
     @Test
     void shouldThrowExceptionWhenContainerContainsMoreThanOneOrNoneExpectedComponents() {
-        var ctx = new AppComponentsContainerImpl(ConfigWithTwoSameComponents.class);
+        var ctx = new AppComponentsContainerImpl(AppTest.ConfigWithTwoSameComponents.class);
 
         assertThatCode(() -> ctx.getAppComponent(EquationPreparer.class)).isInstanceOf(Exception.class);
 
@@ -124,4 +121,5 @@ class AppTest {
             return new EquationPreparerImpl();
         }
     }
+
 }

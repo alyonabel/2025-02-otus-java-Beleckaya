@@ -5,7 +5,6 @@ import ru.otus.appcontainer.api.AppComponentsContainer;
 import ru.otus.appcontainer.api.AppComponentsContainerConfig;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("squid:S1068")
 
@@ -31,13 +30,13 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
         var configClassesSorted = Arrays.stream(configClasses)
                 .filter(it -> it.isAnnotationPresent(AppComponentsContainerConfig.class))
                 .sorted(Comparator.comparingInt(it -> it.getAnnotation(AppComponentsContainerConfig.class).order()))
-                .collect(Collectors.toList());
+                .toList();
 
         for (var configClass : configClassesSorted) {
             var sortedMethods = Arrays.stream(configClass.getMethods())
                     .filter(it -> it.isAnnotationPresent(AppComponent.class))
                     .sorted(Comparator.comparingInt(it -> it.getAnnotation(AppComponent.class).order()))
-                    .collect(Collectors.toList());
+                    .toList();
 
             var instance = configClass.getDeclaredConstructor().newInstance();
 
@@ -48,6 +47,11 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 var component = method.invoke(instance, args);
 
                 var componentName = method.getAnnotation(AppComponent.class).name();
+
+                if (appComponentsByName.containsKey(componentName)) {
+                    throw new IllegalArgumentException("Duplicate component name: " + componentName);
+                }
+
                 appComponentsByName.put(componentName, component);
                 appComponents.add(component);
 
