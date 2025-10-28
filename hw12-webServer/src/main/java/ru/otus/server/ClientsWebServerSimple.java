@@ -94,7 +94,7 @@ public class ClientsWebServerSimple implements ClientsWebServer {
                 new ClientServlet(templateProcessor, dbServiceClient)
         ), "/clients");
         servletContextHandler.addServlet(new ServletHolder(
-                new ClientServlet(templateProcessor, dbServiceClient)
+                new NewClientServlet(templateProcessor, dbServiceClient)
         ), "/clients/new");
         servletContextHandler.addServlet(new ServletHolder(
                 new ClientApiServlet(dbServiceClient, gson)
