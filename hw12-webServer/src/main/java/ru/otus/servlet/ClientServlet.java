@@ -25,7 +25,7 @@ public class ClientServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException {
-        var clients = dbServiceClient.findAll();
+        var clients = dbServiceClient.findAll();  // берём всех клиентов
         response.setContentType("text/html");
         response.getWriter().println(templateProcessor.getPage(CLIENTS_PAGE_TEMPLATE, Map.of(TEMPLATE_ATTR_CLIENTS, clients)));
     }

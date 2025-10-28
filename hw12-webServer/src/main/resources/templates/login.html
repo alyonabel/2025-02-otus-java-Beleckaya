@@ -19,6 +19,12 @@
         <br/><br/>
         <input type="submit" value="Перейти к списку клиентов">
     </form>
+
+<#-- Вывод сообщения об ошибке -->
+<#if errorMessage??>
+    <p style="color:red">${errorMessage}</p>
+</#if>
+
 </div>
 </body>
 </html>

@@ -36,11 +36,15 @@ public class WebServerSimple {
         var templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
         var authService = new ClientAuthServiceImpl(dbServiceClient);
 
-        var clientWebServer = new ClientsWebServerWithFilterBasedSecurity(WEB_SERVER_PORT,
-                authService, dbServiceClient, gson, templateProcessor);
+        var clientWebServer = new ClientsWebServerWithFilterBasedSecurity(
+                WEB_SERVER_PORT,
+                authService,
+                dbServiceClient,
+                gson,
+                templateProcessor
+        );
 
-        clientWebServer.start();
-        clientWebServer.join();
+        clientWebServer.start(); // join уже внутри start()
     }
 
     private static void flywayMigrations(Configuration configuration) {
@@ -52,6 +56,7 @@ public class WebServerSimple {
                 .dataSource(new DriverDataSource(WebServerSimple.class.getClassLoader(), "org.postgresql.Driver", url, user, password))
                 .locations("classpath:/db/migration")
                 .load();
+        flyway.repair();
         flyway.migrate();
     }
 }
