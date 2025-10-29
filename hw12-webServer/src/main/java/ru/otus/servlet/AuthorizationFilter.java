@@ -27,13 +27,11 @@ public class AuthorizationFilter implements Filter {
         this.context.log("Requested Resource:" + uri);
 
         HttpSession session = request.getSession(false);
-
-        if (session == null) {
+        if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect("/login");
-        } else {
-            filterChain.doFilter(servletRequest, servletResponse);
+            return; // важно остановить цепочку, иначе пустая страница
         }
-
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

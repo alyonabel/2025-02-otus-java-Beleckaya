@@ -9,6 +9,7 @@ import ru.otus.hibernate.crm.service.DBServiceClient;
 import ru.otus.services.TemplateProcessor;
 import ru.otus.services.ClientAuthService;
 import ru.otus.servlet.AuthorizationFilter;
+import ru.otus.servlet.ClientServlet;
 import ru.otus.servlet.LoginServlet;
 
 import java.util.Arrays;
@@ -27,9 +28,16 @@ public class ClientsWebServerWithFilterBasedSecurity extends ClientsWebServerSim
 
     @Override
     protected Handler applySecurity(ServletContextHandler servletContextHandler, String... paths) {
+        // Сервлет логина
         servletContextHandler.addServlet(new ServletHolder(new LoginServlet(templateProcessor, authService)), "/login");
+
+//        // Сервлет для отображения клиентов
+//        servletContextHandler.addServlet(new ServletHolder(new ClientServlet(templateProcessor, dbServiceClient)), "/clients");
+
+
         AuthorizationFilter authorizationFilter = new AuthorizationFilter();
         Arrays.stream(paths).forEachOrdered(path -> servletContextHandler.addFilter(new FilterHolder(authorizationFilter), path, null));
         return servletContextHandler;
+
     }
 }

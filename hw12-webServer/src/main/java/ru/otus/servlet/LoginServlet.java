@@ -10,6 +10,7 @@ import ru.otus.services.TemplateProcessor;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Map;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
@@ -43,11 +44,18 @@ public class LoginServlet extends HttpServlet {
         if (clientAuthService.authenticate(name, password)) {
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(MAX_INACTIVE_INTERVAL);
+            session.setAttribute("user", name); //
             response.sendRedirect("/clients");
         } else {
-            response.setStatus(SC_UNAUTHORIZED);
+            // Неверный логин/пароль — показываем страницу логина с сообщением
+            response.setContentType("text/html");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().println(
+                    templateProcessor.getPage(
+                            LOGIN_PAGE_TEMPLATE,
+                            Map.of("errorMessage", "Неверный логин или пароль")
+                    )
+            );
         }
-
     }
-
 }

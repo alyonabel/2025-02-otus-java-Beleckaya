@@ -7,7 +7,8 @@ import javax.persistence.*;
 public class AddressDataSet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "hibernate_seq", sequenceName = "hibernate_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hibernate_seq")
     @Column(name = "id")
     private Long id;
 
@@ -15,7 +16,7 @@ public class AddressDataSet {
     private String street;
 
 
-    @JoinColumn(name = "clent_id", referencedColumnName = "id")
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
     private Client client;
 
