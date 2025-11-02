@@ -29,6 +29,7 @@
         <module>hw11-cache</module>
         <module>hw12-webServer</module>
         <module>hw13-di</module>
+        <module>hw14-springBoot</module>
 
 
     </modules>

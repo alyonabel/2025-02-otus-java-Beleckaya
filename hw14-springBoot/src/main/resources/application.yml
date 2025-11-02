@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demoDB
+    driver-class-name: org.postgresql.Driver
+    username: usr
+    password: pwd
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+logging:
+  level:
+    org.springframework.jdbc.core.JdbcTemplate: debug
+    org.flywaydb: debug
